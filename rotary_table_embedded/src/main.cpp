@@ -154,8 +154,14 @@ void loop() {
     }
     else{
       digitalWrite(MOT_EN, 1);
-      if(new_speed >= -2000 && new_speed <= 2000){
-        target_speed = new_speed;
+      if(new_speed >= -4095 && new_speed <= 4095){
+        if(hold_pwm){
+          setMotor(new_speed/4095.0); // allows you to type in a PWM value directly when in hold mode
+          Serial.print("PWM set to: ");
+          Serial.println(new_speed);
+        }else{
+          target_speed = new_speed;
+        }
       }else{
         Serial.println("invalid target speed. Must be mm/s int");
       }
